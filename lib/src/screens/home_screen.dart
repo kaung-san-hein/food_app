@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/src/data/food_data.dart';
-import 'package:food_app/src/models/food_model.dart';
+import 'package:food_app/src/scoped-model/main_model.dart';
+import 'package:food_app/src/screens/food_detail_screen.dart';
 import 'package:food_app/src/widgets/bought_foods.dart';
 import 'package:food_app/src/widgets/food_category.dart';
 import 'package:food_app/src/widgets/home_top_info.dart';
 import 'package:food_app/src/widgets/search_field.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,13 +13,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<FoodModel> _foods = foods;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ListView(
-        padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
+        padding: EdgeInsets.only(left: 20.0, right: 20.0),
         children: [
           HomeTopInfo(),
           FoodCategory(),
@@ -49,8 +49,24 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           SizedBox(height: 20.0),
-          Column(
-            children: _foods.map((food) => BoughtFoods(food)).toList(),
+          ScopedModelDescendant<MainModel>(
+            builder: (BuildContext context, Widget child, MainModel model) {
+              return Column(
+                children: model.foods.map((food) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              FoodDetailScreen(foodModel: food),
+                        ),
+                      );
+                    },
+                    child: BoughtFoods(food),
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),

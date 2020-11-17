@@ -23,7 +23,7 @@ class _BoughtFoodsState extends State<BoughtFoods> {
               height: 200.0,
               width: 340.0,
               child: Image.asset(
-                widget.food.imagePath,
+                "assets/images/breakfast.jpeg",
                 fit: BoxFit.cover,
               ),
             ),
@@ -82,7 +82,7 @@ class _BoughtFoodsState extends State<BoughtFoods> {
                               size: 16.0),
                           SizedBox(width: 20.0),
                           Text(
-                            "(${widget.food.ratings} Reviews)",
+                            "(Reviews)",
                             style: TextStyle(
                               color: Colors.grey,
                             ),
