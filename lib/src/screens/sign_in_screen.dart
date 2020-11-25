@@ -19,6 +19,7 @@ class _SignInScreenState extends State<SignInScreen> {
   String _password;
 
   void onSubmit(Function authenticated) {
+    FocusScope.of(context).requestFocus(FocusNode());
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       authenticated(_email, _password).then((response) {

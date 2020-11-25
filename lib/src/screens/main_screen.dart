@@ -5,6 +5,8 @@ import 'package:food_app/src/screens/explore_screen.dart';
 import 'package:food_app/src/screens/home_screen.dart';
 import 'package:food_app/src/screens/order_screen.dart';
 import 'package:food_app/src/screens/profile_screen.dart';
+import 'package:food_app/src/screens/sign_in_screen.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class MainScreen extends StatefulWidget {
   final MainModel mainModel;
@@ -69,10 +71,31 @@ class _MainScreenState extends State<MainScreen> {
               ),
               onPressed: () {},
             ),
-            IconButton(
-              icon: _buildShoppingCart(),
-              onPressed: () {},
-            ),
+            _currentTabIndex == 3
+                ? ScopedModelDescendant(
+                    builder:
+                        (BuildContext context, Widget child, MainModel model) {
+                      return IconButton(
+                        icon: Icon(
+                          Icons.logout,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignInScreen(),
+                            ),
+                          );
+                          model.logout();
+                        },
+                      );
+                    },
+                  )
+                : IconButton(
+                    icon: _buildShoppingCart(),
+                    onPressed: () {},
+                  ),
           ],
         ),
         drawer: Drawer(

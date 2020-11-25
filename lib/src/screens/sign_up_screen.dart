@@ -22,10 +22,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _password;
 
   void onSubmit(Function authenticated) {
+    FocusScope.of(context).requestFocus(FocusNode());
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      authenticated(_email, _password, _username, authMode: AuthMode.SignUp)
-          .then((response) {
+
+      Map<String, dynamic> userInfo = {
+        "email": _email,
+        "username": _username,
+        "userType": "customer",
+      };
+
+      authenticated(
+        _email,
+        _password,
+        authMode: AuthMode.SignUp,
+        userInfo: userInfo,
+      ).then((response) {
         Navigator.of(context).pop();
         if (!response["hasError"]) {
           Navigator.of(context).pushReplacementNamed("/mainScreen");
